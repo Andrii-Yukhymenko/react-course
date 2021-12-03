@@ -1,12 +1,12 @@
 import React from 'react';
 import Post from './Post';
 
-function PostList(props) {
+function PostList({ posts, title, removePost }) {
   return (
     <>
-      <h1 style={{ textAlign: 'center' }}>{props.title}</h1>
-      {props.posts.map((item, index) => {
-        return <Post key={item.id} post={item} number={index + 1} />;
+      <h1 style={{ textAlign: 'center' }}>{title}</h1>
+      {posts.map((item, index) => {
+        return <Post removePost={removePost} key={item.id} post={item} number={index + 1} />;
       })}
     </>
   );
