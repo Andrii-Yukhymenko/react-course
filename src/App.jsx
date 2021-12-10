@@ -7,6 +7,7 @@ import post from './components/Post';
 import PostForm from './components/PostForm';
 import MySelect from './components/UI/select/MySelect';
 import MyModal from './components/UI/MyModal/MyModal';
+import axios from 'axios';
 
 function App() {
   let [posts, setPosts] = useState([
@@ -35,6 +36,7 @@ function App() {
   const createNewPost = (postTitle, postContent) => {
     const newPost = { id: Date.now(), title: postTitle, content: postContent };
     setPosts([...posts, newPost]);
+    setFormModal(false);
   };
   const removePost = (post) => {
     setPosts(posts.filter((i) => i.id !== post.id));
@@ -44,12 +46,20 @@ function App() {
     setPosts([...posts].sort((a, b) => a[item].localeCompare(b[item])));
     console.log(selectedSort);
   };
+
+  async function fetchPosts() {
+    let response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    setPosts(response.data);
+    console.log(response.data);
+  }
+
   return (
     <>
       <div className="container">
         <MyModal formModal={formModal} setFormModal={setFormModal}>
           <PostForm createNewPost={createNewPost} />
         </MyModal>
+        <MyButton onClick={() => fetchPosts()}>Получить посты</MyButton>
         <MyButton onClick={() => setFormModal(!formModal)}>Создать пост</MyButton>
         <MySelect
           value={selectedSort}
