@@ -8,7 +8,7 @@ function Post({ number, post, removePost }) {
         <strong>
           {number} : {post.title}
         </strong>
-        <div>{post.content}</div>
+        <div>{post.body}</div>
       </div>
       <div className="post__btns">
         <MyButton

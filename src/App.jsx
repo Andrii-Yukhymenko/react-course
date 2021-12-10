@@ -1,40 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/main.scss';
 import PostList from './components/PostList';
 import MyButton from './components/UI/button/MyButton';
-import MyInput from './components/UI/input/MyInput';
-import post from './components/Post';
 import PostForm from './components/PostForm';
 import MySelect from './components/UI/select/MySelect';
 import MyModal from './components/UI/MyModal/MyModal';
-import axios from 'axios';
+import Service from './API/Service';
+import MyLoader from './components/UI/MyLoader/MyLoader';
 
 function App() {
-  let [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: '1January',
-      content:
-        '1Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum',
-    },
-    {
-      id: 2,
-      title: '2January',
-      content:
-        '2Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum',
-    },
-    {
-      id: 3,
-      title: '3January',
-      content:
-        '3Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum',
-    },
-  ]);
+  let [posts, setPosts] = useState([]);
   let [selectedSort, setSelectedSort] = useState('');
   let [formModal, setFormModal] = useState(false);
+  let [postsLoading, setPostsLoading] = useState(true);
 
   const createNewPost = (postTitle, postContent) => {
-    const newPost = { id: Date.now(), title: postTitle, content: postContent };
+    const newPost = { id: Date.now(), title: postTitle, body: postContent };
     setPosts([...posts, newPost]);
     setFormModal(false);
   };
@@ -48,10 +29,14 @@ function App() {
   };
 
   async function fetchPosts() {
-    let response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-    setPosts(response.data);
-    console.log(response.data);
+    let posts = await Service.getALL();
+    setPosts(posts);
+    setPostsLoading(false);
   }
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <>
@@ -59,7 +44,6 @@ function App() {
         <MyModal formModal={formModal} setFormModal={setFormModal}>
           <PostForm createNewPost={createNewPost} />
         </MyModal>
-        <MyButton onClick={() => fetchPosts()}>Получить посты</MyButton>
         <MyButton onClick={() => setFormModal(!formModal)}>Создать пост</MyButton>
         <MySelect
           value={selectedSort}
@@ -70,7 +54,9 @@ function App() {
             { value: 'content', name: 'Сортировка по описанию' },
           ]}
         />
-        {posts.length !== 0 ? (
+        {postsLoading ? (
+          <MyLoader />
+        ) : posts.length !== 0 ? (
           <PostList removePost={removePost} posts={posts} title={'React Posts'} />
         ) : (
           <p>Постов нет</p>
