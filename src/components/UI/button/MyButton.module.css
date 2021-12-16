@@ -6,3 +6,6 @@
   border: 1px solid teal;
   cursor: pointer;
 }
+.myBtnActive{
+  border: 3px solid #09d0d0;
+}

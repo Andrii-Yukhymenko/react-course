@@ -17,7 +17,7 @@ function App() {
   let [pagesTotal, setPagesTotal] = useState();
   let [paginationsTotal, setPaginationsTotal] = useState();
   let [postsOnPage, setPostsOnPage] = useState(10);
-  let pagesArray = [];
+  let pagesArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const createNewPost = (postTitle, postContent) => {
     const newPost = { id: Date.now(), title: postTitle, body: postContent };
@@ -39,10 +39,10 @@ function App() {
     setPostsLoading(false);
     setPagesTotal(response.headers['x-total-count']);
     setPaginationsTotal(Math.ceil(pagesTotal / postsOnPage));
-    for (let i = 1; i <= paginationsTotal; i++) {
-      pagesArray.push(i);
-    }
-    console.log(pagesArray);
+    // for (let i = 1; i <= paginationsTotal; i++) {
+    //   pagesArray.push(i);
+    // }
+    // console.log(pagesArray);
   }
 
   useEffect(() => {
@@ -73,7 +73,14 @@ function App() {
           <p>Постов нет</p>
         )}
         {pagesArray.map((item) => (
-          <MyButton key={item}>{item}</MyButton>
+          <MyButton
+            active={item === pageNumber ? true : false}
+            key={item}
+            onClick={() => {
+              setPageNumber(item);
+            }}>
+            {item}
+          </MyButton>
         ))}
       </div>
     </>
