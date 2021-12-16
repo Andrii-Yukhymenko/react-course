@@ -13,6 +13,11 @@ function App() {
   let [selectedSort, setSelectedSort] = useState('');
   let [formModal, setFormModal] = useState(false);
   let [postsLoading, setPostsLoading] = useState(true);
+  let [pageNumber, setPageNumber] = useState(1);
+  let [pagesTotal, setPagesTotal] = useState();
+  let [paginationsTotal, setPaginationsTotal] = useState();
+  let [postsOnPage, setPostsOnPage] = useState(10);
+  let pagesArray = [];
 
   const createNewPost = (postTitle, postContent) => {
     const newPost = { id: Date.now(), title: postTitle, body: postContent };
@@ -29,9 +34,15 @@ function App() {
   };
 
   async function fetchPosts() {
-    let posts = await Service.getALL();
-    setPosts(posts);
+    let response = await Service.getALL(pageNumber, postsOnPage);
+    setPosts(response.data);
     setPostsLoading(false);
+    setPagesTotal(response.headers['x-total-count']);
+    setPaginationsTotal(Math.ceil(pagesTotal / postsOnPage));
+    for (let i = 1; i <= paginationsTotal; i++) {
+      pagesArray.push(i);
+    }
+    console.log(pagesArray);
   }
 
   useEffect(() => {
@@ -61,6 +72,9 @@ function App() {
         ) : (
           <p>Постов нет</p>
         )}
+        {pagesArray.map((item) => (
+          <MyButton key={item}>{item}</MyButton>
+        ))}
       </div>
     </>
   );
