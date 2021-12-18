@@ -6,7 +6,7 @@ function PostList({ posts, title, removePost }) {
     <>
       <h1 style={{ textAlign: 'center' }}>{title}</h1>
       {posts.map((item, index) => {
-        return <Post removePost={removePost} key={item.id} post={item} number={index + 1} />;
+        return <Post removePost={removePost} key={item.id} post={item} number={item.id} />;
       })}
     </>
   );
