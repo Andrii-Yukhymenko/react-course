@@ -12,6 +12,9 @@
     background: #93dbe9;
   }
 }
+.loader-wrapper {
+  text-align: center;
+}
 .ldio-spzqsfhynmj div {
   position: absolute;
   width: 40px;

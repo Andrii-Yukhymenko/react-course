@@ -1,0 +1,25 @@
+.header {
+  background: azure;
+  &__container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  &__menu {
+  }
+}
+.menu {
+  &__body {
+    display: flex;
+    justify-content: flex-end;
+  }
+  &__list {
+    display: flex;
+  }
+  &__item {
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  &__link {
+  }
+}

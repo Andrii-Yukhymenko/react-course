@@ -1,6 +1,7 @@
 @import url('~normalize.css');
+@import 'header.scss';
 
-body{
+body {
   background-color: #2b2b2b;
   color: azure;
 }
@@ -17,7 +18,7 @@ body{
   }
 }
 
-.container{
+.container {
   margin: 0 auto;
   max-width: 900px;
   padding: 40px 10px 0 10px;
