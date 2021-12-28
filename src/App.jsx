@@ -4,6 +4,8 @@ import About from './pages/About';
 import NotFound from './pages/NotFound/NotFound';
 import { Routes, Route, Link } from 'react-router-dom';
 import Header from './components/Header';
+import './styles/main.scss'
+import Post from "./pages/Post";
 
 let headerLinks = [
   { link: '/posts', name: 'Посты' },
@@ -26,8 +28,9 @@ function App() {
       </Header>
 
       <Routes>
-        <Route path="/posts" element={<Posts />} />
+        <Route path="/" element={<Posts />} />
         <Route path="/about" element={<About />} />
+        <Route path="/post/:id" element={<Post />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
